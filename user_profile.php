@@ -37,6 +37,7 @@ switch ($method) {
                 'message' => 'User already exist. Please log in.'
             );
         }
+    break;
     case 'PUT': // update user profile
         $raw=file_get_contents('php://input');
         $data=json_decode($raw,true);
