@@ -34,7 +34,7 @@ switch ($method) {
         }else{
             $output = array(
                 'status_code' => 300,
-                'message' => 'User already exist. Please log in.',
+                'message' => 'User already exist. Please log in.'
             );
         }
     case 'PUT': // update user profile
@@ -43,7 +43,8 @@ switch ($method) {
         // Load values
         $public_address = $_GET['public_address'];
         
-        if($public_address){            
+        if($public_address){           
+
             $crypto_dns = $data['crypto_dns'];
             $privacy_mode = $data['privacy_mode'];
             $user_email = $data['email'];
@@ -52,16 +53,34 @@ switch ($method) {
             $user_full_name = $data['full_name'];
             $pet_ens = $data['pet_ens'];
             
-            // Update Profile
-            $update_query = "UPDATE {$user_table} SET crypto_dns = '{$crypto_dns}', privacy_mode = '{$privacy_mode}', email = '${user_email}', phone_number = '{$user_phone_number}', country_of_residence = '{$user_country_of_residence}', full_name = '{$user_full_name}', pet_ens = '{$pet_ens}' ";
-            echo $update_query;
+            // Check Pet ENS 
+            $check_query = "SELECT id FROM {$user_table} WHERE pet_ens = '{$pet_ens}'";
+            $result = pg_query($conn,$check_query);
+            $row = pg_fetch_row($result);
+           
+            if($row == 0){
+                // Update Profile
+                $update_query = "UPDATE {$user_table} SET crypto_dns = '{$crypto_dns}', privacy_mode = '{$privacy_mode}', email = '${user_email}', phone_number = '{$user_phone_number}', country_of_residence = '{$user_country_of_residence}', full_name = '{$user_full_name}', pet_ens = '{$pet_ens}' ";
+                pg_query($conn,$update_query);
+                
+                $output = array(
+                    'status_code' => 200,
+                    'message' => 'Success, Profile has been updated.'
+                );
+            }
+           
+        }else{
+            $output = array(
+                'status_code' => 300,
+                'message' => 'Pet ENS Names is taken, try another one'
+            );
         }
         
         break;
     default:
         $output = array(
             'status_code' => 500,
-            'message' => 'Invalid Request or Missing Information.',
+            'message' => 'Invalid Request or Missing Information.'
         );
         break;
 }
