@@ -5,19 +5,12 @@ $user_table = "crypto_pets_user";
 $output = array();
 
 switch ($method) {
-    case 'GET':
-        $query = "SELECT * FROM {$user_table}";
-        $result = pg_query($conn, $query);
-        $row = pg_fetch_assoc($result);
-        $output = $row;
-        break;
-    
-    case 'POST':
+    case 'POST': // Register User
 
         $raw=file_get_contents('php://input');
         $data=json_decode($raw,true);
+        $public_address = $_GET['public_address'];
         // Load values
-        $public_address = $data['public_address'];
         $crypto_dns = $data['crypto_dns'];
         $privacy_mode = $data['privacy_mode'];
         $user_email = $data['email'];
@@ -28,9 +21,7 @@ switch ($method) {
         $check_query = "SELECT id FROM {$user_table} WHERE public_address = '{$public_address}'";
         $result = pg_query($conn,$check_query);
         $row = pg_fetch_row($result);
-        // pg_send_query($conn, $check_query);
-        // $result = pg_get_result($conn);
-		// $state = pg_result_error_field($result, PGSQL_DIAG_SQLSTATE);
+       
         if($row == 0){
             // Register User
             $register_query = "INSERT INTO {$user_table} (public_address, crypto_dns, privacy_mode, email, phone_number, country_of_residence, full_name) VALUES ('{$public_address}','{$crypto_dns}','{$privacy_mode}','{$user_email}','{$user_phone_number}','{$user_country_of_residence}', '{$user_full_name}')";
@@ -45,6 +36,25 @@ switch ($method) {
                 'status_code' => 300,
                 'message' => 'User already exist. Please log in.',
             );
+        }
+    case 'PUT': // update user profile
+        $raw=file_get_contents('php://input');
+        $data=json_decode($raw,true);
+        // Load values
+        $public_address = $_GET['public_address'];
+        
+        if($public_address){            
+            $crypto_dns = $data['crypto_dns'];
+            $privacy_mode = $data['privacy_mode'];
+            $user_email = $data['email'];
+            $user_phone_number = $data['phone_number'];
+            $user_country_of_residence = $data['country_of_residence'];
+            $user_full_name = $data['full_name'];
+            $pet_ens = $data['pet_ens'];
+            
+            // Update Profile
+            $update_query = "UPDATE {$user_table} SET crypto_dns = '{$crypto_dns}', privacy_mode = '{$privacy_mode}', email = '${user_email}', phone_number = '{$user_phone_number}', country_of_residence = '{$user_country_of_residence}', full_name = '{$user_full_name}', pet_ens = '{$pet_ens}' ";
+            echo $update_query;
         }
         
         break;
