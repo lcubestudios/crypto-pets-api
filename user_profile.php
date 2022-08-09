@@ -26,22 +26,24 @@ switch ($method) {
         $user_full_name = $data['full_name'];
         // Check if User Exist
         $check_query = "SELECT id FROM {$user_table} WHERE public_address = '{$public_address}'";
-        $id = pg_query($conn,$check_query);
+        $result = pg_query($conn,$check_query);
+        $row = pg_fetch_row($result);
         // pg_send_query($conn, $check_query);
         // $result = pg_get_result($conn);
 		// $state = pg_result_error_field($result, PGSQL_DIAG_SQLSTATE);
-        if($id){
-            $output = array(
-                'status_code' => 300,
-                'message' => 'User already exist. Please log in.',
-            );
-        }else{
+        if($row == 0){
             // Register User
             $register_query = "INSERT INTO {$user_table} (public_address, crypto_dns, privacy_mode, email, phone_number, country_of_residence, full_name) VALUES ('{$public_address}','{$crypto_dns}','{$privacy_mode}','{$user_email}','{$user_phone_number}','{$user_country_of_residence}', '{$user_full_name}')";
             pg_query($conn,$register_query);
             $output = array(
                 'status_code' => 200,
                 'message' => 'Success, user has been created.',
+            );
+            
+        }else{
+            $output = array(
+                'status_code' => 300,
+                'message' => 'User already exist. Please log in.',
             );
         }
         
