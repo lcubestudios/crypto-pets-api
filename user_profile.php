@@ -26,6 +26,7 @@ switch ($method) {
         $user_full_name = $data['full_name'];
         // Check if User Exist
         $check_query = "SELECT id FROM {$user_table} WHERE public_address = {$public_address}";
+        echo $check_query;
         $result = pg_query($conn,$check_query);
         if($result){
             $output = array(
@@ -35,7 +36,7 @@ switch ($method) {
         }else{
             // Register User
             $register_query = "INSERT INTO {$user_table} (public_address, crypto_dns, privacy_mode, email, phone_number, country_of_residence, full_name) VALUES ('{$public_address}','{$crypto_dns}','{$privacy_mode}','{$user_email}','{$user_phone_number}','{$user_country_of_residence}', '{$user_full_name}')";
-            pg_query($conn,$register_query);
+            // pg_query($conn,$register_query);
             $output = array(
                 'status_code' => 200,
                 'message' => 'User has been created.',
