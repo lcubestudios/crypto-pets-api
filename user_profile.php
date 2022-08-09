@@ -26,8 +26,9 @@ switch ($method) {
         $user_full_name = $data['full_name'];
         // Check if User Exist
         $check_query = "SELECT id FROM {$user_table} WHERE public_address = '{$public_address}'";
-        $result = pg_query($conn,$check_query);
-        if($result){
+        $result = pg_get_result($conn);
+		$state = pg_result_error_field($result, PGSQL_DIAG_SQLSTATE);
+        if($state == '23505' ){
             $output = array(
                 'status_code' => 300,
                 'message' => 'User already exist. Please log in.',
