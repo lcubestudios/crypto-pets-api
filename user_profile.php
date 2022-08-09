@@ -22,7 +22,7 @@ switch ($method) {
         $user_country_of_residence = $data['country_of_residence'];
         $user_full_name = $data['full_name'];
         
-        $query = "INSERT INTO (public_address,crypto_dns,privacy_mode,user_email,user_phone_number,user_country_of_residence,user_full_name)  VALUES ({$public_address},{$crypto_dns},{$privacy_mode},{$user_email},{$user_phone_number},{$user_full_name})";
+        $query = "INSERT INTO (public_address,crypto_dns,privacy_mode,user_email,user_phone_number,user_country_of_residence,user_full_name)  VALUES ('{$public_address}','{$crypto_dns}','{$privacy_mode}','{$user_email}','{$user_phone_number}','{$user_full_name}')";
         echo $query;
         // $output = array(
         //     'status_code' => 200,
