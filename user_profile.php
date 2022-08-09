@@ -30,15 +30,15 @@ switch ($method) {
         if($result){
             $output = array(
                 'status_code' => 300,
-                'message' => 'User exist.',
+                'message' => 'User already exist. Please log in.',
             );
         }else{
             // Register User
             $register_query = "INSERT INTO {$user_table} (public_address, crypto_dns, privacy_mode, email, phone_number, country_of_residence, full_name) VALUES ('{$public_address}','{$crypto_dns}','{$privacy_mode}','{$user_email}','{$user_phone_number}','{$user_country_of_residence}', '{$user_full_name}')";
-            // pg_query($conn,$register_query);
+            pg_query($conn,$register_query);
             $output = array(
                 'status_code' => 200,
-                'message' => 'User has been created.',
+                'message' => 'Success, user has been created.',
             );
         }
         
