@@ -37,7 +37,8 @@ switch ($method) {
         }else{
             // Register User
             $register_query = "INSERT INTO {$user_table} (public_address, crypto_dns, privacy_mode, email, phone_number, country_of_residence, full_name) VALUES ('{$public_address}','{$crypto_dns}','{$privacy_mode}','{$user_email}','{$user_phone_number}','{$user_country_of_residence}', '{$user_full_name}')";
-            pg_query($conn,$register_query);
+            echo $register_query;
+            // pg_query($conn,$register_query);
             $output = array(
                 'status_code' => 200,
                 'message' => 'Success, user has been created.',
