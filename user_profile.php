@@ -55,26 +55,18 @@ switch ($method) {
             $pet_ens = $data['pet_ens'];
             
             // Check Pet ENS 
-            $check_query = "SELECT id FROM {$user_table} WHERE pet_ens = '{$pet_ens}'";
-            $result = pg_query($conn,$check_query);
-            $row = pg_fetch_row($result);
+            // $check_query = "SELECT pet_ens FROM {$user_table} WHERE public_address = '{$public_address}'";
+            // $result = pg_query($conn,$check_query);
+            // $row = pg_fetch_row($result);
            
-            if($row == 0){
-                // Update Profile
-                $update_query = "UPDATE {$user_table} SET crypto_dns = '{$crypto_dns}', privacy_mode = '{$privacy_mode}', email = '${user_email}', phone_number = '{$user_phone_number}', country_of_residence = '{$user_country_of_residence}', full_name = '{$user_full_name}', pet_ens = '{$pet_ens}' ";
-                pg_query($conn,$update_query);
-                
-                $output = array(
-                    'status_code' => 200,
-                    'message' => 'Success, Profile has been updated.'
-                );
-            }
+            // Update Profile
+           $update_query = "UPDATE {$user_table} SET crypto_dns = '{$crypto_dns}', privacy_mode = '{$privacy_mode}', email = '${user_email}', phone_number = '{$user_phone_number}', country_of_residence = '{$user_country_of_residence}', full_name = '{$user_full_name}', pet_ens = '{$pet_ens}' ";
+           pg_query($conn,$update_query);
            
-        }else{
-            $output = array(
-                'status_code' => 300,
-                'message' => 'Pet ENS Names is taken, try another one'
-            );
+           $output = array(
+               'status_code' => 200,
+               'message' => 'Success, Profile has been updated.'
+           );
         }
         
         break;
