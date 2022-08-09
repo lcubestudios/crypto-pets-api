@@ -26,6 +26,7 @@ switch ($method) {
         $user_full_name = $data['full_name'];
         // Check if User Exist
         $check_query = "SELECT id FROM {$user_table} WHERE public_address = '{$public_address}'";
+        pg_send_query($conn, $check_query);
         $result = pg_get_result($conn);
 		$state = pg_result_error_field($result, PGSQL_DIAG_SQLSTATE);
         if($state == '23505' ){
