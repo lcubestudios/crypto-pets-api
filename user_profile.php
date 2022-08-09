@@ -1,7 +1,7 @@
 <?php
 
 require('config.php');
-$user_table = "crypto_pets_user"
+$user_table = "crypto_pets_user";
 $output = array();
 
 switch ($method) {
