@@ -25,8 +25,7 @@ switch ($method) {
         $user_country_of_residence = $data['country_of_residence'];
         $user_full_name = $data['full_name'];
         // Check if User Exist
-        $check_query = "SELECT id FROM {$user_table} WHERE public_address = {$public_address}";
-        echo $check_query;
+        $check_query = "SELECT id FROM {$user_table} WHERE public_address = '{$public_address}'";
         $result = pg_query($conn,$check_query);
         if($result){
             $output = array(
