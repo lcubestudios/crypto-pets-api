@@ -5,6 +5,15 @@ $user_table = "crypto_pets_user";
 $output = array();
 
 switch ($method) {
+    case 'GET':
+        $public_address = $_GET['public_address'];
+        //Load user profile
+        $load_profile_query = "SELECT * FROM {$user_table} WHERE public_address = '{$public_address}' ";
+        $result = pg_query($conn,$load_profile_query);
+        $row = pg_fetch_assoc($result);
+        $output = $row;
+    break;
+    
     case 'POST': // Register User
 
         $raw=file_get_contents('php://input');
